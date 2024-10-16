@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/grebd/OneDrive/Desktop/Отбор/build",
+  "command": "C:\\msys64\\mingw64\\bin\\g++.exe -g -o CMakeFiles\\test.dir\\src\\task_2.cpp.obj -c C:\\Users\\grebd\\OneDrive\\Desktop\\Отбор\\src\\task_2.cpp",
+  "file": "C:\\Users\\grebd\\OneDrive\\Desktop\\Отбор\\src\\task_2.cpp",
+  "output": "CMakeFiles\\test.dir\\src\\task_2.cpp.obj"
+}
+]

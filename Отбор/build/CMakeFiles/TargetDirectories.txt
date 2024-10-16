@@ -1,0 +1,3 @@
+C:/Users/grebd/OneDrive/Desktop/Отбор/build/CMakeFiles/test.dir
+C:/Users/grebd/OneDrive/Desktop/Отбор/build/CMakeFiles/edit_cache.dir
+C:/Users/grebd/OneDrive/Desktop/Отбор/build/CMakeFiles/rebuild_cache.dir
