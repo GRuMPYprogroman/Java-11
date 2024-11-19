@@ -3,7 +3,7 @@ package vector;
 import java.util.List;
 import java.util.ArrayList;
 
-public final class Vector {    
+public final class Vector {
 
     private double x;
     private double y;
@@ -20,7 +20,7 @@ public final class Vector {
         this.y = 0.0;
         this.z = 0.0;
     }
-    
+
     public double getX() { return x; }
     public double getY() { return y; }
     public double getZ() { return z; }
@@ -41,33 +41,38 @@ public final class Vector {
     public Vector vectorMultiplication(Vector another)
     {
         Vector newVector = new Vector(
-        this.y*another.z-this.z*another.y,
-        this.z*another.x-this.x*another.z,
-        this.x*another.y-this.y*another.x);
+                this.y*another.z-this.z*another.y,
+                this.z*another.x-this.x*another.z,
+                this.x*another.y-this.y*another.x);
         return newVector;
     }
 
-    public double findAngle(Vector another)
-    {
+    public double findAngle(Vector another) {
+        double len1 = this.len();
+        double len2 = another.len();
+
+        if (len1 == 0 || len2 == 0) {
+            throw new ArithmeticException("Невозможно вычислить угол с нулевым вектором.");
+        }
+
         double numerator = scalarMultiplication(another);
-        double denominator = Math.sqrt(Math.pow(this.x,2) + Math.pow(this.y,2) + Math.pow(this.z,2)) *
-                             Math.sqrt(Math.pow(another.x,2) + Math.pow(another.y,2) + Math.pow(another.z,2)); 
+        double denominator = len1 * len2;
         return numerator / denominator;
     }
 
     public Vector sumVec(Vector another){
         Vector newVector = new Vector(
-        this.x+another.x,
-        this.y+another.y,
-        this.z+another.z);
+                this.x+another.x,
+                this.y+another.y,
+                this.z+another.z);
         return newVector;
     }
 
     public Vector subtVec(Vector another){
         Vector newVector = new Vector(
-        this.x-another.x,
-        this.y-another.y,
-        this.z-another.z);
+                this.x-another.x,
+                this.y-another.y,
+                this.z-another.z);
         return newVector;
     }
 
@@ -77,9 +82,9 @@ public final class Vector {
         for (int i = 0; i < N; ++i)
         {
             Vector newVector = new Vector(
-                Math.random() * 100 + 1,
-                Math.random() * 100 + 1,
-                Math.random() * 100 + 1
+                    Math.random() * 100 + 1,
+                    Math.random() * 100 + 1,
+                    Math.random() * 100 + 1
             );
             vectorsList.add(newVector);
         }
