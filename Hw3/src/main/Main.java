@@ -1,17 +1,6 @@
 package main;
-import vehicles.Bicycle;
-import vehicles.Car;
-import vehicles.Vehicle;
-import vehicles.carBrands;
-import vehicles.shipBrands;
-import vehicles.bicycleBrands;
-import vehicles.planeBrands;
-import vehicles.Ship;
-import vehicles.Plane;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import vehicles.*;
+import java.util.*;
 
 public class Main {
     public static void main(String args[]) {
@@ -21,84 +10,146 @@ public class Main {
         List<Ship> shipInstances = new ArrayList<>();
         List<Bicycle> bicycleInstances = new ArrayList<>();
 
-        while (true)
-        {
-            System.out.println("""
-                Enter desired action: 
-                1) Create instance of vehicle
-                2) Delete instance of vehicle
-                3) Get info about all vehicles
-                4) Exit
-                """);
-            int response = console.nextInt();
-            switch(response)
-            {
-                case 1:
+        while (true) {
+            try {
                 System.out.println("""
-                    Which one?: 
-                    1) Car
-                    2) Plane
-                    3) Ship
-                    4) Bicycle
+                    Enter desired action: 
+                    1) Create instance of vehicle
+                    2) Delete instance of vehicle
+                    3) Get info about all vehicles
+                    4) Exit
                     """);
-                int vecResp = console.nextInt();
-                switch(vecResp){
-                    case 1:
-                    Car car = new Car(1,2,3,4,5,carBrands.Toyota,4);
-                    carInstances.add(car);
+                String response = console.nextLine().trim();
+
+                switch (response) {
+                    case "1":
+                        createVehicle(console, carInstances, planeInstances, shipInstances, bicycleInstances);
                         break;
-                    case 2:
-                    Plane plane = new Plane(1,2,3,4,5,planeBrands.Airbus,4);
-                    planeInstances.add(plane);
+
+                    case "2":
+                        deleteVehicle(console, carInstances, planeInstances, shipInstances, bicycleInstances);
                         break;
-                    case 3:
-                    Ship ship = new Ship(1,2,3,4,5,shipBrands.Maersk,4);
-                    shipInstances.add(ship);
+
+                    case "3":
+                        Vehicle.info();
                         break;
-                    case 4:
-                    Bicycle bike = new Bicycle(1,2,3,4,5,bicycleBrands.Canyon,4);
-                    bicycleInstances.add(bike);
+
+                    case "4":
+                        System.out.println("Exiting program...");
+                        System.exit(0);
+
+                    default:
+                        System.out.println("Invalid choice. Please enter a number between 1 and 4.");
                         break;
                 }
-                    break;
-                case 2:
-                System.out.println("""
-                    Which one?: 
-                    1) Car
-                    2) Plane
-                    3) Ship
-                    4) Bicycle
-                    """);
-                int vecResp2 = console.nextInt();
-                switch(vecResp2){
-                    case 1:
-                        Car toDelete1 = carInstances.get(carInstances.size()-1);
-                        carInstances.remove(carInstances.size()-1);
-                        toDelete1.deleteInstance(null);
-                        break;
-                    case 2:
-                        Plane toDelete2 = planeInstances.get(planeInstances.size()-1);
-                        planeInstances.remove(planeInstances.size()-1);
-                        toDelete2.deleteInstance(null);
-                        break;
-                    case 3:
-                        Ship toDelete3 = shipInstances.get(shipInstances.size()-1);
-                        shipInstances.remove(shipInstances.size()-1);
-                        toDelete3.deleteInstance(null);
-                        break;
-                    case 4:
-                        Bicycle toDelete4 = bicycleInstances.get(bicycleInstances.size()-1);
-                        bicycleInstances.remove(bicycleInstances.size()-1);
-                        toDelete4.deleteInstance(null);    
-                        break;
-                }
-                    break;
-                case 3:
-                    Vehicle.info();
-                    break;
-                case 4:
-                    System.exit(response);
-            } 
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                console.nextLine(); // Clear buffer
+            } catch (IndexOutOfBoundsException e) {
+                System.out.println("No instances available to delete in the selected category.");
+            } catch (Exception e) {
+                System.out.println("An unexpected error occurred: " + e.getMessage());
+            }
         }
-    }   
+    }
+
+    private static void createVehicle(Scanner console, List<Car> cars, List<Plane> planes, List<Ship> ships, List<Bicycle> bicycles) {
+        try {
+            System.out.println("""
+                Which one?: 
+                1) Car
+                2) Plane
+                3) Ship
+                4) Bicycle
+                """);
+            String vecResp = console.nextLine().trim();
+
+            switch (vecResp) {
+                case "1":
+                    cars.add(new Car(1, 2, 3, 4, 5, carBrands.Toyota, 4));
+                    System.out.println("Car instance created.");
+                    break;
+
+                case "2":
+                    planes.add(new Plane(1, 2, 3, 470, 5, planeBrands.Airbus, 6));
+                    System.out.println("Plane instance created.");
+                    break;
+
+                case "3":
+                    ships.add(new Ship(1, 2, 3, 45, 5, shipBrands.Maersk, 0));
+                    System.out.println("Ship instance created.");
+                    break;
+
+                case "4":
+                    bicycles.add(new Bicycle(1, 2, 3, 2, 5, bicycleBrands.Canyon, 2));
+                    System.out.println("Bicycle instance created.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please enter a number between 1 and 4.");
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to create vehicle: " + e.getMessage());
+        }
+    }
+
+    private static void deleteVehicle(Scanner console, List<Car> cars, List<Plane> planes, List<Ship> ships, List<Bicycle> bicycles) {
+        try {
+            System.out.println("""
+                Which one to delete?: 
+                1) Car
+                2) Plane
+                3) Ship
+                4) Bicycle
+                """);
+            String vecResp = console.nextLine().trim();
+
+            switch (vecResp) {
+                case "1":
+                    if (!cars.isEmpty()) {
+                        Car toDelete1 = cars.remove(cars.size() - 1);
+                        toDelete1.deleteInstance(null);
+                        System.out.println("Car instance deleted.");
+                    } else {
+                        System.out.println("No cars to delete.");
+                    }
+                    break;
+
+                case "2":
+                    if (!planes.isEmpty()) {
+                        Plane toDelete2 = planes.remove(planes.size() - 1);
+                        toDelete2.deleteInstance(null);
+                        System.out.println("Plane instance deleted.");
+                    } else {
+                        System.out.println("No planes to delete.");
+                    }
+                    break;
+
+                case "3":
+                    if (!ships.isEmpty()) {
+                        Ship toDelete3 = ships.remove(ships.size() - 1);
+                        toDelete3.deleteInstance(null);
+                        System.out.println("Ship instance deleted.");
+                    } else {
+                        System.out.println("No ships to delete.");
+                    }
+                    break;
+
+                case "4":
+                    if (!bicycles.isEmpty()) {
+                        Bicycle toDelete4 = bicycles.remove(bicycles.size() - 1);
+                        toDelete4.deleteInstance(null);
+                        System.out.println("Bicycle instance deleted.");
+                    } else {
+                        System.out.println("No bicycles to delete.");
+                    }
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please enter a number between 1 and 4.");
+            }
+        } catch (Exception e) {
+            System.out.println("Failed to delete vehicle: " + e.getMessage());
+        }
+    }
 }
